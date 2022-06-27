@@ -11,6 +11,9 @@ import { test } from './test';
 //   whitelist: ['login'],
 //   // blacklist -> 그것만 제외합니다
 // };
+interface RootStateInterface {
+  test: any;
+}
 const rootReducer: Reducer<RootStateInterface, AnyAction> = (state, action) => {
   switch (action.type) {
     case HYDRATE:
