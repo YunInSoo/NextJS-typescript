@@ -1,6 +1,7 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { Reducer } from 'react';
-import { AnyAction, CombinedState, combineReducers } from 'redux';
+import { AnyAction, CombinedState } from 'redux';
+import { combineReducers } from '@reduxjs/toolkit';
 import { test } from './test';
 
 // const persistConfig = {
@@ -14,7 +15,7 @@ import { test } from './test';
 interface RootStateInterface {
   test: any;
 }
-const rootReducer: Reducer<RootStateInterface, AnyAction> = (state, action) => {
+const rootReducer = (state: RootStateInterface | undefined, action: AnyAction) => {
   switch (action.type) {
     case HYDRATE:
       return action.payload;
