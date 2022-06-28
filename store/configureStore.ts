@@ -4,17 +4,18 @@ import { createWrapper } from 'next-redux-wrapper';
 import { configureStore } from '@reduxjs/toolkit';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import reducer from '../reducers/redux';
+import rootReducer from '../reducers/redux';
 import logger from 'redux-logger';
 
 export const configStore = () => {
+  console.log(process.env.NODE_ENV);
   const sagaMiddleware = createSagaMiddleware();
-  const middlewares = [sagaMiddleware];
-  const enMiddleware = process.env.NODE_ENV === 'development' ? composeWithDevTools(applyMiddleware(...middlewares)) : compose(applyMiddleware(...middlewares));
-  const middleware: any = [enMiddleware];
+  const middleware = [sagaMiddleware];
+  // const enMiddleware = process.env.NODE_ENV === 'development' ? composeWithDevTools(applyMiddleware(...middlewares)) : compose(applyMiddleware(...middlewares));
+  // const middleware: any = [enMiddleware];
   // create a makeStore function
   const makeStore = configureStore({
-    reducer,
+    reducer: rootReducer,
     devTools: process.env.NODE_ENV !== 'production',
     middleware,
   });

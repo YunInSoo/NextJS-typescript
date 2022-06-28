@@ -11,5 +11,5 @@ function MyApp(props: AppProps) {
   return <SelectLayout {...{ selectLayout, setSelectLayout, Component, pageProps }} />;
 }
 
-export default MyApp;
-// export default wrapper.withRedux(MyApp);
+// export default MyApp;
+export default wrapper.withRedux(MyApp);

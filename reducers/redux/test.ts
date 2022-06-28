@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import createReducer from 'config/redux/immerWrapper';
 import produce from 'immer';
 
@@ -11,21 +12,32 @@ const testDataInfo = {
   message: null,
 };
 
-export const test = produce((state, action) => {
-  switch (action.type) {
-    case LOAD_TEST:
-      state.loading = true;
-      break;
+type TestType = {
+  data: any;
+  loading: boolean;
+  message: any;
+};
 
-    case LOAD_TEST_SUCCEEDED:
-      state.loading = false;
-      state.data = action.data;
-      break;
-    case LOAD_TEST_FAILED:
-      state.loading = false;
-      state.message = action.message;
-      break;
-    default:
-      break;
-  }
-});
+type PayloadActionExtend = PayloadAction & {
+  message: string;
+};
+
+export const test = (state = testDataInfo, action: PayloadActionExtend) =>
+  produce(state, (draft: TestType) => {
+    switch (action.type) {
+      case LOAD_TEST:
+        draft.loading = true;
+        break;
+
+      case LOAD_TEST_SUCCEEDED:
+        draft.loading = false;
+        draft.data = action.payload;
+        break;
+      case LOAD_TEST_FAILED:
+        draft.loading = false;
+        draft.message = action.message;
+        break;
+      default:
+        break;
+    }
+  });
