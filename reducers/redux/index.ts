@@ -1,7 +1,6 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
-import { Reducer } from 'react';
-import { AnyAction, CombinedState } from 'redux';
-import { combineReducers, PayloadAction } from '@reduxjs/toolkit';
+import { AnyAction, CombinedState, Reducer, combineReducers } from 'redux';
 import { test } from './test';
 
 // const persistConfig = {
@@ -20,12 +19,30 @@ type PayloadActionExtend = PayloadAction & {
   message: string;
 };
 
-const rootReducer = (state: RootStateInterface | undefined, action: PayloadActionExtend) => {
+// const rootReducer = (state: RootStateInterface | undefined, action: PayloadActionExtend) => {
+//   switch (action.type) {
+//     case HYDRATE:
+//       return action.payload;
+//     default: {
+//       const combinedReducer = combineReducers({
+//         test,
+//       });
+//       return combinedReducer(state, action);
+//     }
+//   }
+// };
+// const rootReducer: Reducer<RootStateInterface, PayloadActionExtend> = combineReducers<RootStateInterface>({
+//   test,
+// });
+
+const rootReducer = (state: RootStateInterface | undefined, action: { type: typeof HYDRATE; payload: RootStateInterface }) => {
   switch (action.type) {
-    case HYDRATE:
-      return action.payload;
+    case HYDRATE: {
+      const nextState: RootStateInterface = { ...state, ...action.payload };
+      return nextState;
+    }
     default: {
-      const combinedReducer = combineReducers({
+      const combinedReducer = combineReducers<RootStateInterface>({
         test,
       });
       return combinedReducer(state, action);
@@ -34,5 +51,4 @@ const rootReducer = (state: RootStateInterface | undefined, action: PayloadActio
 };
 
 export default rootReducer;
-
 export type RootState = ReturnType<typeof rootReducer>;
